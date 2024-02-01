@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 
-def get_text_for_tts_infer(text, language_str, hps, device, symbol_to_id=None):
+def get_text_for_tts_infer(text, language_str, hps, device, symbol_to_id=None, force_disable_bert=False):
     norm_text, phone, tone, word2ph = clean_text(text, language_str)
     # print(text)
     # print(phone)
@@ -33,9 +33,13 @@ def get_text_for_tts_infer(text, language_str, hps, device, symbol_to_id=None):
             word2ph[i] = word2ph[i] * 2
         word2ph[0] += 1
 
+    if force_disable_bert:
+        hps.data.disable_bert = True
+
     if getattr(hps.data, "disable_bert", False):
         bert = torch.zeros(1024, len(phone))
         ja_bert = torch.zeros(768, len(phone))
+        print('### disable_bert ###')
     else:
         bert = get_bert(norm_text, word2ph, language_str, device)
         del word2ph
