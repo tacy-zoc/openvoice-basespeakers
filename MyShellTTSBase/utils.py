@@ -34,7 +34,6 @@ def get_text_for_tts_infer(text, language_str, hps, device, symbol_to_id=None):
     if getattr(hps.data, "disable_bert", False):
         bert = torch.zeros(1024, len(phone))
         ja_bert = torch.zeros(768, len(phone))
-        print('### disable_bert ###')
     else:
         bert = get_bert(norm_text, word2ph, language_str, device)
         del word2ph

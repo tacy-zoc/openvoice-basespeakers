@@ -1,1 +1,5 @@
-download the ckpts and their ses https://cloud.tsinghua.edu.cn/f/d4d474958bd54e19acf6/?dl=1
+##  Usage (After installing OpenVoice)
+```
+pip install .
+python -m unidic download
+```
