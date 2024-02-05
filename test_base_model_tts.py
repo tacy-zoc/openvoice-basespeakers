@@ -1,20 +1,18 @@
-from MyShellTTSBase.api import VITS2_API
+from MyShellTTSBase.api import TTS
 import os
 import glob
 import sys
 
 ckpt_path = sys.argv[1]
 root_folder = os.path.dirname(ckpt_path)
-
-if os.path.exists(f'{root_folder}/config_v2.json'):
-    model = VITS2_API(config_path=f'{root_folder}/config_v2.json')
-else:
-    model = VITS2_API(config_path=f'{root_folder}/config.json')
+    
+model = TTS(config_path=f'{root_folder}/config.json')
 model.load_ckpt(ckpt_path)
 
 speaker_ids = model.hps.data.spk2id
 speakers = list(speaker_ids.keys())
 
+root_folder = root_folder.lower()
 if 'zh' in root_folder:
     texts = open('basetts_test_resources/zh_mix_en_egs_text.txt', 'r').readlines()
     language = 'ZH_MIX_EN'
@@ -51,4 +49,4 @@ for speed in [1.0]:
         for sent_id, text in enumerate(texts):
             output_path = f'{save_dir}/{speaker}/speed_{speed}/sent_{sent_id:03d}.wav'
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            model.tts_to_file(text, speaker_ids[speaker], output_path, language=language, speed=speed, force_disable_bert=True)
+            model.tts_to_file(text, speaker_ids[speaker], output_path, language=language, speed=speed)
