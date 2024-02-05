@@ -53,8 +53,6 @@ class TTS(nn.Module):
         language = language.split('_')[0]
         self.language = 'ZH_MIX_EN' if language == 'ZH' else language # we support a ZH_MIX_EN model
 
-
-
     @staticmethod
     def audio_numpy_concat(segment_data_list, sr, speed=1.):
         audio_segments = []

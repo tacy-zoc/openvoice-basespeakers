@@ -55,21 +55,15 @@ class Encoder(nn.Module):
         self.kernel_size = kernel_size
         self.p_dropout = p_dropout
         self.window_size = window_size
-        # if isflow:
-        #  cond_layer = torch.nn.Conv1d(256, 2*hidden_channels*n_layers, 1)
-        #  self.cond_pre = torch.nn.Conv1d(hidden_channels, 2*hidden_channels, 1)
-        #  self.cond_layer = weight_norm(cond_layer, name='weight')
-        #  self.gin_channels = 256
+
         self.cond_layer_idx = self.n_layers
         if "gin_channels" in kwargs:
             self.gin_channels = kwargs["gin_channels"]
             if self.gin_channels != 0:
                 self.spk_emb_linear = nn.Linear(self.gin_channels, self.hidden_channels)
-                # vits2 says 3rd block, so idx is 2 by default
                 self.cond_layer_idx = (
                     kwargs["cond_layer_idx"] if "cond_layer_idx" in kwargs else 2
                 )
-                # logging.debug(self.gin_channels, self.cond_layer_idx)
                 assert (
                     self.cond_layer_idx < self.n_layers
                 ), "cond_layer_idx should be less than n_layers"
