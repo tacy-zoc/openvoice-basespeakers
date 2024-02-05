@@ -302,7 +302,7 @@ _CONVRULES = [
     "ォ/ o",
     "ヮ/ w a",
     "ォ/ o",
-    # Try converting broken text by @tacy-zoc
+    # Try converting broken text
     "ャ/ y a",
     "ョ/ y o",
     "ュ/ y u",
